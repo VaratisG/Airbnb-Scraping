@@ -10,14 +10,34 @@ from bs4 import BeautifulSoup
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
 NIGHTS = 5
 
-def get_url_with_dates(url: str) -> str:
+
+def get_url_with_dates(url: str, start_day_offset: int = 60) -> str:
     """Add check-in/check-out dates to URL to force price display."""
-    checkin  = (datetime.now() + timedelta(days=60)).strftime("%Y-%m-%d")
-    checkout = (datetime.now() + timedelta(days=60 + NIGHTS)).strftime("%Y-%m-%d")
+    checkin  = (datetime.now() + timedelta(days=start_day_offset)).strftime("%Y-%m-%d")
+    checkout = (datetime.now() + timedelta(days=start_day_offset + NIGHTS)).strftime("%Y-%m-%d")
     separator = "&" if "?" in url else "?"
     return f"{url}{separator}check_in={checkin}&check_out={checkout}"
+
+
+def try_extract_price(source: str) -> float | None:
+    """Try to extract per-night price from page source."""
+    # Match prices with optional comma thousands separator e.g. €&nbsp;1,234 or €&nbsp;234
+    price_match = re.search(r'€&nbsp;([\d,]+)</span><spa', source)
+    if price_match:
+        raw_price = round(int(price_match.group(1).replace(",", "")) / NIGHTS, 2)
+        if raw_price >= 10:
+            return raw_price
+
+    price_match2 = re.search(r'€&nbsp;([\d,]+)', source)
+    if price_match2:
+        raw_price = round(int(price_match2.group(1).replace(",", "")) / NIGHTS, 2)
+        if raw_price >= 10:
+            return raw_price
+
+    return None
 
 
 def extract_features(driver, url: str, region: str) -> dict:
@@ -44,28 +64,51 @@ def extract_features(driver, url: str, region: str) -> dict:
     }
 
     try:
-        driver.get(get_url_with_dates(url))
+        # ── Try up to 5 month windows to find an available price ──
+        source = None
+        for attempt in range(5):
+            # Each attempt moves 1 month further into the future
+            # Attempt 0 = 60 days out, 1 = 90 days, 2 = 120 days, etc.
+            start_offset = 60 + (attempt * 30)
+            attempt_url  = get_url_with_dates(url, start_offset)
 
-        # Wait for page structure to load
-        WebDriverWait(driver, 15).until(
-            EC.presence_of_element_located(
-                (By.CSS_SELECTOR, 'script[type="application/ld+json"]')
-            )
-        )
+            driver.get(attempt_url)
 
-        # Wait for price to render dynamically
-        try:
-            WebDriverWait(driver, 10).until(
+            # Wait for page structure
+            WebDriverWait(driver, 15).until(
                 EC.presence_of_element_located(
-                    (By.CSS_SELECTOR, '[data-testid="book-it-default"]')
+                    (By.CSS_SELECTOR, 'script[type="application/ld+json"]')
                 )
             )
-            time.sleep(2)
-        except Exception:
-            time.sleep(4)
 
-        source = driver.page_source
-        soup   = BeautifulSoup(source, "html.parser")
+            # Wait for price to render dynamically
+            try:
+                WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located(
+                        (By.CSS_SELECTOR, '[data-testid="book-it-default"]')
+                    )
+                )
+                time.sleep(2)
+            except Exception:
+                time.sleep(4)
+
+            source = driver.page_source
+            price  = try_extract_price(source)
+
+            if price is not None:
+                result["price_per_night"] = price
+                break  # price found — no need to try more months
+
+            # No price found — try next month window
+            if attempt < 4:
+                print(f"  No price at +{start_offset} days, trying +{start_offset + 30} days...")
+                time.sleep(1)
+
+        # ── Parse the final loaded page for all other features ──
+        if source is None:
+            return None
+
+        soup = BeautifulSoup(source, "html.parser")
 
         # ── 1. LD+JSON — latitude, longitude, rating, reviews ──
         for script in soup.find_all("script", type="application/ld+json"):
@@ -104,10 +147,10 @@ def extract_features(driver, url: str, region: str) -> dict:
                             if not num:
                                 continue
                             n = int(num.group())
-                            if "guest"   in title: result["guests"]   = n
+                            if "guest"    in title: result["guests"]   = n
                             elif "bedroom" in title: result["bedrooms"] = n
-                            elif "bed"   in title: result["beds"]     = n
-                            elif "bath"  in title: result["baths"]    = n
+                            elif "bed"    in title: result["beds"]     = n
+                            elif "bath"   in title: result["baths"]    = n
 
                     # Guest favourite, review index, num reviews
                     if s_id == "REVIEWS_DEFAULT":
@@ -148,27 +191,12 @@ def extract_features(driver, url: str, region: str) -> dict:
                             if not num:
                                 continue
                             n = int(num.group())
-                            if "guest"   in title: result["guests"]   = n
+                            if "guest"    in title: result["guests"]   = n
                             elif "bedroom" in title: result["bedrooms"] = n
-                            elif "bed"   in title: result["beds"]     = n
-                            elif "bath"  in title: result["baths"]    = n
+                            elif "bed"    in title: result["beds"]     = n
+                            elif "bath"   in title: result["baths"]    = n
             except (KeyError, IndexError, TypeError):
                 pass
-
-        # ── 3. Price — extracted from rendered DOM ──
-        price_match = re.search(r'€&nbsp;(\d+)</span><spa', source)
-        if price_match:
-            raw_price = round(int(price_match.group(1)) / NIGHTS)
-            # Sanity check — AirBnB prices are never below 10€/night
-            if raw_price >= 10:
-                result["price_per_night"] = raw_price
-        
-        if not result["price_per_night"]:
-            price_match2 = re.search(r'€&nbsp;(\d+)', source)
-            if price_match2:
-                raw_price = round(int(price_match2.group(1)) / NIGHTS)
-                if raw_price >= 10:
-                    result["price_per_night"] = raw_price
 
     except Exception as e:
         print(f"  ERROR on {url}: {e}")

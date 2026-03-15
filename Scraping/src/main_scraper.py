@@ -23,7 +23,7 @@ log = logging.getLogger(__name__)
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 URLS_FILE    = "../json_listings/listing_urls_merged.json"
-OUTPUT_FILE  = "../json_listings/listings_data.json"
+OUTPUT_FILE  = "../listings_data.json"
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 def load_urls() -> dict:
