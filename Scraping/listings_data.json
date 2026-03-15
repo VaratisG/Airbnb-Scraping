@@ -6670,6 +6670,256 @@
       ],
       "latitude": 40.6381,
       "longitude": 22.93609
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1077312705037752777",
+      "region": "Kalamaria",
+      "price_per_night": 73.4,
+      "guests": 4,
+      "beds": 2,
+      "bedrooms": 2,
+      "baths": 1,
+      "is_superhost": true,
+      "is_guest_favourite": false,
+      "review_index": 4.77,
+      "num_reviews": 30,
+      "host_name": "Lamprinos",
+      "characteristics": [
+        "Self check-in",
+        "At-home coffee",
+        "Lamprinos is a Superhost"
+      ],
+      "latitude": 40.60422,
+      "longitude": 22.95483
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1373216195012302701",
+      "region": "Kalamaria",
+      "price_per_night": 79.0,
+      "guests": 4,
+      "beds": 2,
+      "bedrooms": 1,
+      "baths": 1,
+      "is_superhost": true,
+      "is_guest_favourite": true,
+      "review_index": 5,
+      "num_reviews": 28,
+      "host_name": "Anastasia",
+      "characteristics": [
+        "Top 10% of homes",
+        "Self check-in",
+        "Anastasia is a Superhost"
+      ],
+      "latitude": 40.6121,
+      "longitude": 22.9538
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/22702953",
+      "region": "Kalamaria",
+      "price_per_night": null,
+      "guests": 6,
+      "beds": 4,
+      "bedrooms": 3,
+      "baths": 2,
+      "is_superhost": false,
+      "is_guest_favourite": true,
+      "review_index": 4.97,
+      "num_reviews": 148,
+      "host_name": "Helena",
+      "characteristics": [
+        "Great check-in experience",
+        "Mountain and city views",
+        "Dedicated workspace"
+      ],
+      "latitude": 40.6043,
+      "longitude": 22.9526
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/995615721255872469",
+      "region": "Kalamaria",
+      "price_per_night": 112.6,
+      "guests": 5,
+      "beds": 3,
+      "bedrooms": 2,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": true,
+      "review_index": 5,
+      "num_reviews": 38,
+      "host_name": "Δεσποινα",
+      "characteristics": [
+        "Designed for staying cool",
+        "Self check-in",
+        "Park view"
+      ],
+      "latitude": 40.5976,
+      "longitude": 22.9653
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/963545448125905545",
+      "region": "Kalamaria",
+      "price_per_night": 87.6,
+      "guests": 4,
+      "beds": 2,
+      "bedrooms": 1,
+      "baths": 1,
+      "is_superhost": true,
+      "is_guest_favourite": false,
+      "review_index": 4.9,
+      "num_reviews": 50,
+      "host_name": "Sky Nomads",
+      "characteristics": [
+        "Self check-in",
+        "Fast wifi",
+        "Sky Nomads is a Superhost"
+      ],
+      "latitude": 40.5965,
+      "longitude": 22.9539
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1537558175693367558",
+      "region": "Kalamaria",
+      "price_per_night": 77.4,
+      "guests": 4,
+      "beds": 2,
+      "bedrooms": 1,
+      "baths": 1,
+      "is_superhost": true,
+      "is_guest_favourite": false,
+      "review_index": 5,
+      "num_reviews": 5,
+      "host_name": "Roy Living",
+      "characteristics": [
+        "Unbeatable location",
+        "At-home coffee",
+        "Roy Living is a Superhost"
+      ],
+      "latitude": 40.6106,
+      "longitude": 22.9589
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1142432329200457068",
+      "region": "Kalamaria",
+      "price_per_night": 82.6,
+      "guests": 4,
+      "beds": 2,
+      "bedrooms": 1,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": true,
+      "review_index": 4.98,
+      "num_reviews": 92,
+      "host_name": "Dimitris",
+      "characteristics": [
+        "Top 10% of homes",
+        "Self check-in",
+        "At-home coffee"
+      ],
+      "latitude": 40.64361,
+      "longitude": 22.928
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1256422497835703813",
+      "region": "Kalamaria",
+      "price_per_night": 63.6,
+      "guests": 3,
+      "beds": 1,
+      "bedrooms": 1,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": false,
+      "review_index": 4.5,
+      "num_reviews": 16,
+      "host_name": "Αναστάσιος",
+      "characteristics": [
+        "Great check-in experience",
+        "Exceptional host communication"
+      ],
+      "latitude": 40.5984,
+      "longitude": 22.9567
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/24421242",
+      "region": "Kalamaria",
+      "price_per_night": 73.0,
+      "guests": 3,
+      "beds": 1,
+      "bedrooms": 1,
+      "baths": 1,
+      "is_superhost": true,
+      "is_guest_favourite": false,
+      "review_index": 4.86,
+      "num_reviews": 73,
+      "host_name": "Asimenia",
+      "characteristics": [
+        "Self check-in",
+        "Asimenia is a Superhost"
+      ],
+      "latitude": 40.67359,
+      "longitude": 22.92864
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/656307846355454735",
+      "region": "Kalamaria",
+      "price_per_night": 75.4,
+      "guests": 4,
+      "beds": 2,
+      "bedrooms": 1,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": true,
+      "review_index": 4.92,
+      "num_reviews": 50,
+      "host_name": "Παναγιωτης",
+      "characteristics": [
+        "Self check-in",
+        "Vibrant neighborhood",
+        "Mountain and park views"
+      ],
+      "latitude": 40.603,
+      "longitude": 22.9689
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1361395338916595721",
+      "region": "Kalamaria",
+      "price_per_night": 72.8,
+      "guests": 3,
+      "beds": 2,
+      "bedrooms": 1,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": true,
+      "review_index": 4.88,
+      "num_reviews": 8,
+      "host_name": "Sofia",
+      "characteristics": [
+        "Self check-in",
+        "Unbeatable location",
+        "Park for free"
+      ],
+      "latitude": 40.50672,
+      "longitude": 22.92674
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/31171950",
+      "region": "Kalamaria",
+      "price_per_night": 78.0,
+      "guests": 4,
+      "beds": 2,
+      "bedrooms": 1,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": true,
+      "review_index": 4.75,
+      "num_reviews": 71,
+      "host_name": "Maria",
+      "characteristics": [
+        "Self check-in",
+        "Unbeatable location",
+        "Dedicated workspace"
+      ],
+      "latitude": 40.5985,
+      "longitude": 22.9554
     }
   ],
   "Panorama": [
@@ -10098,6 +10348,207 @@
       ],
       "latitude": 40.6439,
       "longitude": 22.9635
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1590432566026949839",
+      "region": "Panorama",
+      "price_per_night": 50.4,
+      "guests": 2,
+      "beds": 1,
+      "bedrooms": 1,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": false,
+      "review_index": null,
+      "num_reviews": 2,
+      "host_name": "Vilfredo",
+      "characteristics": [
+        "Self check-in",
+        "Exceptional host communication"
+      ],
+      "latitude": 40.6025,
+      "longitude": 22.9723
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1354300994279853354",
+      "region": "Panorama",
+      "price_per_night": 452.4,
+      "guests": 9,
+      "beds": 7,
+      "bedrooms": 1,
+      "baths": 2,
+      "is_superhost": false,
+      "is_guest_favourite": false,
+      "review_index": 4.56,
+      "num_reviews": 18,
+      "host_name": "BiNoBi",
+      "characteristics": [
+        "Self check-in"
+      ],
+      "latitude": 40.6377,
+      "longitude": 22.9344
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1561638187266795249",
+      "region": "Panorama",
+      "price_per_night": 154.0,
+      "guests": 7,
+      "beds": 4,
+      "bedrooms": 3,
+      "baths": 2,
+      "is_superhost": false,
+      "is_guest_favourite": true,
+      "review_index": 5,
+      "num_reviews": 5,
+      "host_name": "Dimitra",
+      "characteristics": [
+        "Exceptional check-in experience",
+        "Unbeatable location",
+        "Exceptional host communication"
+      ],
+      "latitude": 40.60732,
+      "longitude": 22.95769
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1325871044115513276",
+      "region": "Panorama",
+      "price_per_night": 143.0,
+      "guests": null,
+      "beds": 1,
+      "bedrooms": null,
+      "baths": null,
+      "is_superhost": false,
+      "is_guest_favourite": true,
+      "review_index": 5,
+      "num_reviews": 6,
+      "host_name": "Nitsa",
+      "characteristics": [
+        "Exceptional check-in experience",
+        "Unbeatable location",
+        "Room in a rental unit"
+      ],
+      "latitude": 40.5092,
+      "longitude": 22.9258
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/904393943950877009",
+      "region": "Panorama",
+      "price_per_night": 60.6,
+      "guests": 4,
+      "beds": 1,
+      "bedrooms": 1,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": false,
+      "review_index": 4.54,
+      "num_reviews": 104,
+      "host_name": "Desen Hospitality",
+      "characteristics": [
+        "Self check-in",
+        "Dedicated workspace"
+      ],
+      "latitude": 40.63492,
+      "longitude": 22.93985
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/52549167",
+      "region": "Panorama",
+      "price_per_night": 78.6,
+      "guests": 4,
+      "beds": 2,
+      "bedrooms": 2,
+      "baths": 1,
+      "is_superhost": true,
+      "is_guest_favourite": false,
+      "review_index": 4.72,
+      "num_reviews": 111,
+      "host_name": "Απόστολος",
+      "characteristics": [
+        "At-home coffee",
+        "Απόστολος is a Superhost"
+      ],
+      "latitude": 40.61709,
+      "longitude": 22.97555
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1537785998336605104",
+      "region": "Panorama",
+      "price_per_night": 84.4,
+      "guests": 4,
+      "beds": 2,
+      "bedrooms": 1,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": false,
+      "review_index": null,
+      "num_reviews": 2,
+      "host_name": "Christos",
+      "characteristics": [
+        "Self check-in",
+        "Lots to do nearby",
+        "Furry friends welcome"
+      ],
+      "latitude": 40.6352,
+      "longitude": 22.9408
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1592283462066431748",
+      "region": "Panorama",
+      "price_per_night": 103.0,
+      "guests": 5,
+      "beds": 4,
+      "bedrooms": 2,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": false,
+      "review_index": null,
+      "num_reviews": null,
+      "host_name": "Georgios",
+      "characteristics": [],
+      "latitude": 40.6285,
+      "longitude": 22.9523
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1494267147409680524",
+      "region": "Panorama",
+      "price_per_night": 105.6,
+      "guests": 5,
+      "beds": 3,
+      "bedrooms": 2,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": true,
+      "review_index": 5,
+      "num_reviews": 8,
+      "host_name": "Πηγή",
+      "characteristics": [
+        "Self check-in",
+        "Unbeatable location",
+        "Park for free"
+      ],
+      "latitude": 40.61219,
+      "longitude": 22.97668
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/905698650113857386",
+      "region": "Panorama",
+      "price_per_night": 129.6,
+      "guests": 6,
+      "beds": 3,
+      "bedrooms": 2,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": true,
+      "review_index": 4.89,
+      "num_reviews": 56,
+      "host_name": "Ioanna Apartments",
+      "characteristics": [
+        "Self check-in",
+        "City view",
+        "Park for free"
+      ],
+      "latitude": 40.67755,
+      "longitude": 22.9349
     }
   ],
   "Neapoli-Sikies": [
@@ -14482,6 +14933,495 @@
       ],
       "latitude": 40.64437,
       "longitude": 22.94814
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/11168139",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 67.4,
+      "guests": 2,
+      "beds": 2,
+      "bedrooms": null,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": false,
+      "review_index": 4.74,
+      "num_reviews": 105,
+      "host_name": "Nkos Kar",
+      "characteristics": [
+        "Self check-in",
+        "Park view",
+        "Park for free"
+      ],
+      "latitude": 40.63369,
+      "longitude": 22.95892
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1148286633757757309",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 159.8,
+      "guests": 2,
+      "beds": 1,
+      "bedrooms": 1,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": true,
+      "review_index": 4.93,
+      "num_reviews": 28,
+      "host_name": "Skgbnb",
+      "characteristics": [
+        "Self check-in",
+        "Great location",
+        "Harbor view"
+      ],
+      "latitude": 40.63586,
+      "longitude": 22.93576
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1640776317221825359",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 69.2,
+      "guests": 3,
+      "beds": 2,
+      "bedrooms": null,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": false,
+      "review_index": null,
+      "num_reviews": null,
+      "host_name": "Thodoris",
+      "characteristics": [
+        "Self check-in"
+      ],
+      "latitude": 40.63918,
+      "longitude": 22.95076
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/31033476",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 122.0,
+      "guests": 6,
+      "beds": 3,
+      "bedrooms": 2,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": false,
+      "review_index": 4.88,
+      "num_reviews": 418,
+      "host_name": "Souzana",
+      "characteristics": [
+        "Self check-in",
+        "City view",
+        "Park for free"
+      ],
+      "latitude": 40.64239,
+      "longitude": 22.9478
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1349219321528331315",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 108.6,
+      "guests": 2,
+      "beds": 1,
+      "bedrooms": 1,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": false,
+      "review_index": null,
+      "num_reviews": 1,
+      "host_name": "Dimitra",
+      "characteristics": [
+        "Self check-in"
+      ],
+      "latitude": 40.63845,
+      "longitude": 22.95038
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1100769382735484038",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 117.6,
+      "guests": 5,
+      "beds": 4,
+      "bedrooms": 2,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": true,
+      "review_index": 4.94,
+      "num_reviews": 16,
+      "host_name": "Paulos",
+      "characteristics": [
+        "Self check-in",
+        "City view",
+        "Exceptional host communication"
+      ],
+      "latitude": 40.6371,
+      "longitude": 22.9409
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/901238340098898195",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 105.8,
+      "guests": 4,
+      "beds": 2,
+      "bedrooms": 1,
+      "baths": 0,
+      "is_superhost": false,
+      "is_guest_favourite": false,
+      "review_index": 4.33,
+      "num_reviews": 6,
+      "host_name": "Ioanna Sikalia",
+      "characteristics": [
+        "Self check-in",
+        "Garden view",
+        "Park for free"
+      ],
+      "latitude": 40.6539,
+      "longitude": 22.9578
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1375997937049145892",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 72.6,
+      "guests": 2,
+      "beds": 1,
+      "bedrooms": 1,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": false,
+      "review_index": 5,
+      "num_reviews": 9,
+      "host_name": "Nilie Premium Hospitality MGMT",
+      "characteristics": [
+        "Exceptional check-in experience",
+        "Self check-in"
+      ],
+      "latitude": 40.6381,
+      "longitude": 22.9496
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/627608224895381193",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 62.8,
+      "guests": 4,
+      "beds": 2,
+      "bedrooms": null,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": false,
+      "review_index": 4.75,
+      "num_reviews": 75,
+      "host_name": "The Luxury Suites",
+      "characteristics": [
+        "Exceptional check-in experience",
+        "Self check-in"
+      ],
+      "latitude": 40.6401,
+      "longitude": 22.9381
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1274058414061656002",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 55.4,
+      "guests": 6,
+      "beds": 2,
+      "bedrooms": 2,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": true,
+      "review_index": 4.7,
+      "num_reviews": 30,
+      "host_name": "Μιχαήλ",
+      "characteristics": [
+        "Self check-in",
+        "Peace and quiet",
+        "Park for free"
+      ],
+      "latitude": 40.6633,
+      "longitude": 22.9347
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1641275203629971165",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 153.8,
+      "guests": 6,
+      "beds": 2,
+      "bedrooms": 2,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": false,
+      "review_index": null,
+      "num_reviews": null,
+      "host_name": "Eleftheria",
+      "characteristics": [
+        "Self check-in",
+        "Furry friends welcome"
+      ],
+      "latitude": 40.6355,
+      "longitude": 22.9432
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/54288558",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 64.8,
+      "guests": 4,
+      "beds": 2,
+      "bedrooms": 1,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": false,
+      "review_index": 4.51,
+      "num_reviews": 67,
+      "host_name": "The Luxury Suites",
+      "characteristics": [
+        "Great check-in experience",
+        "Self check-in"
+      ],
+      "latitude": 40.63841,
+      "longitude": 22.93789
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1462099391967260381",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 146.6,
+      "guests": 4,
+      "beds": 3,
+      "bedrooms": 2,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": true,
+      "review_index": 5,
+      "num_reviews": 38,
+      "host_name": "Anastasios",
+      "characteristics": [
+        "Top 1% of homes",
+        "Great check-in experience",
+        "Calm and convenient location"
+      ],
+      "latitude": 40.6341,
+      "longitude": 22.9501
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/636249703061752082",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 69.4,
+      "guests": 3,
+      "beds": 1,
+      "bedrooms": 1,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": false,
+      "review_index": 4.69,
+      "num_reviews": 172,
+      "host_name": "Ζωή",
+      "characteristics": [
+        "Self check-in",
+        "Dedicated workspace"
+      ],
+      "latitude": 40.63676,
+      "longitude": 22.94015
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1462262156746242177",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 134.0,
+      "guests": 2,
+      "beds": 1,
+      "bedrooms": 1,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": false,
+      "review_index": 4.2,
+      "num_reviews": 5,
+      "host_name": "Pavlos",
+      "characteristics": [
+        "Unwind in the hot tub",
+        "Great host communication"
+      ],
+      "latitude": 40.6412,
+      "longitude": 22.9565
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1346880152483391160",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 103.8,
+      "guests": 6,
+      "beds": 3,
+      "bedrooms": 2,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": true,
+      "review_index": 4.97,
+      "num_reviews": 39,
+      "host_name": "Prodromos",
+      "characteristics": [
+        "Self check-in",
+        "Lots to do nearby",
+        "At-home coffee"
+      ],
+      "latitude": 40.6306,
+      "longitude": 22.9526
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1169929339258295058",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 77.6,
+      "guests": 3,
+      "beds": 2,
+      "bedrooms": 1,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": true,
+      "review_index": 4.91,
+      "num_reviews": 33,
+      "host_name": "BM Suites",
+      "characteristics": [
+        "Top 10% of homes",
+        "Self check-in",
+        "Vibrant neighborhood"
+      ],
+      "latitude": 40.6329,
+      "longitude": 22.94
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/707714401173392294",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 68.8,
+      "guests": 2,
+      "beds": 1,
+      "bedrooms": null,
+      "baths": 1,
+      "is_superhost": true,
+      "is_guest_favourite": true,
+      "review_index": 4.95,
+      "num_reviews": 22,
+      "host_name": "FeelsLikeHomeGR",
+      "characteristics": [
+        "Self check-in",
+        "At-home coffee",
+        "FeelsLikeHomeGR is a Superhost"
+      ],
+      "latitude": 40.64075,
+      "longitude": 22.93696
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1270297092041228196",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 66.0,
+      "guests": 4,
+      "beds": 1,
+      "bedrooms": null,
+      "baths": 0,
+      "is_superhost": true,
+      "is_guest_favourite": true,
+      "review_index": 4.94,
+      "num_reviews": 16,
+      "host_name": "Panos House",
+      "characteristics": [
+        "Great check-in experience",
+        "Panos House is a Superhost"
+      ],
+      "latitude": 40.6425,
+      "longitude": 22.9573
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1550129902092440147",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 129.2,
+      "guests": 7,
+      "beds": 4,
+      "bedrooms": 2,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": false,
+      "review_index": null,
+      "num_reviews": 1,
+      "host_name": "Θεοδωρα",
+      "characteristics": [
+        "Self check-in"
+      ],
+      "latitude": 40.6437,
+      "longitude": 22.9634
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/37631218",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 59.6,
+      "guests": 6,
+      "beds": 4,
+      "bedrooms": 2,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": true,
+      "review_index": 4.95,
+      "num_reviews": 154,
+      "host_name": "Konstantinia",
+      "characteristics": [
+        "Self check-in",
+        "Vibrant neighborhood",
+        "Fast wifi"
+      ],
+      "latitude": 40.63015,
+      "longitude": 22.95384
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/36665382",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 77.0,
+      "guests": 2,
+      "beds": 1,
+      "bedrooms": 1,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": false,
+      "review_index": 4.79,
+      "num_reviews": 47,
+      "host_name": "Your City Level",
+      "characteristics": [
+        "Exceptional check-in experience",
+        "Lots to do nearby",
+        "Great host communication"
+      ],
+      "latitude": 40.63196,
+      "longitude": 22.94029
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1095462544225080935",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 76.2,
+      "guests": 4,
+      "beds": 2,
+      "bedrooms": 1,
+      "baths": 1,
+      "is_superhost": true,
+      "is_guest_favourite": true,
+      "review_index": 4.94,
+      "num_reviews": 114,
+      "host_name": "Ioanna",
+      "characteristics": [
+        "Self check-in",
+        "City view",
+        "Ioanna is a Superhost"
+      ],
+      "latitude": 40.6415,
+      "longitude": 22.96
+    },
+    {
+      "url": "https://www.airbnb.com/rooms/1346366964448286148",
+      "region": "Neapoli-Sikies",
+      "price_per_night": 50.2,
+      "guests": 2,
+      "beds": 1,
+      "bedrooms": null,
+      "baths": 1,
+      "is_superhost": false,
+      "is_guest_favourite": false,
+      "review_index": 4.48,
+      "num_reviews": 46,
+      "host_name": "The Luxury Suites",
+      "characteristics": [
+        "Self check-in"
+      ],
+      "latitude": 40.63895,
+      "longitude": 22.94082
     }
   ]
 }
