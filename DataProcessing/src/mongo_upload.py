@@ -10,7 +10,7 @@ CLEAN_DATA_PATH = "../data/listings_cleaned.json"
 # ── MongoDB Config ────────────────────────────────────────────────────────────
 MONGO_URI   = "mongodb://eu:Gm8WQhwE@db.csd.auth.gr:27117/?authSource=admin"
 DB_NAME     = "eu"
-COLLECTION  = "EGD_Collection"
+COLLECTION  = "219_229_220_collection"
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 def get_collection():

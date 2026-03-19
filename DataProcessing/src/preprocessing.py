@@ -1,5 +1,5 @@
 # preprocessing.py
-# Loads raw scraped data, cleans it, handles nulls,
+# Loads raw scraped data, cleans it, removes incomplete listings,
 # and saves a clean JSON ready for MongoDB upload
 
 import json
@@ -38,14 +38,38 @@ def clean_characteristics(chars: list) -> list:
     return cleaned
 
 
-def clean_listing(listing: dict, region_avg_price: float, overall_avg_price: float) -> dict:
+def is_complete(listing: dict) -> tuple[bool, str]:
     """
-    Cleans a single listing dict:
-    - Fills null bedrooms with 0 (studio)
-    - Fills null price with region average, fallback to overall average
-    - Fills null review_index with None (no reviews is valid data)
-    - Fills null num_reviews with 0
-    - Fills null guests/beds/baths with 1 as safe minimum
+    Returns (True, '') if listing has all required fields,
+    or (False, reason) if it should be dropped.
+    """
+    # Must have a price
+    if listing.get("price_per_night") is None:
+        return False, "missing price"
+
+    # Must have at least 3 reviews and a review score
+    if listing.get("num_reviews") is None or listing["num_reviews"] < 3:
+        return False, f"too few reviews ({listing.get('num_reviews')})"
+
+    if listing.get("review_index") is None:
+        return False, "missing review score"
+
+    # Must have core property info
+    for field in ["guests", "beds", "baths", "latitude", "longitude"]:
+        if listing.get(field) is None:
+            return False, f"missing {field}"
+
+    # Must have a host name
+    if not listing.get("host_name"):
+        return False, "missing host name"
+
+    return True, ""
+
+
+def clean_listing(listing: dict) -> dict:
+    """
+    Cleans a single complete listing:
+    - Fills null bedrooms with 0 (studios legitimately have 0 bedrooms)
     - Cleans characteristics list
     - Ensures boolean fields are actual booleans
     - Rounds price to 2 decimals
@@ -53,27 +77,11 @@ def clean_listing(listing: dict, region_avg_price: float, overall_avg_price: flo
     cleaned = listing.copy()
 
     # ── Price ──
-    if cleaned.get("price_per_night") is None:
-        cleaned["price_per_night"] = round(region_avg_price, 2)
-        cleaned["price_imputed"]   = True
-    else:
-        cleaned["price_per_night"] = round(float(cleaned["price_per_night"]), 2)
-        cleaned["price_imputed"]   = False
+    cleaned["price_per_night"] = round(float(cleaned["price_per_night"]), 2)
 
-    # ── Bedrooms — studios have 0 bedrooms ──
+    # ── Bedrooms — studios legitimately have 0 bedrooms ──
     if cleaned.get("bedrooms") is None:
         cleaned["bedrooms"] = 0
-
-    # ── Guests, beds, baths — safe minimum of 1 ──
-    for field in ["guests", "beds", "baths"]:
-        if cleaned.get(field) is None:
-            cleaned[field] = 1
-
-    # ── Reviews ──
-    if cleaned.get("num_reviews") is None:
-        cleaned["num_reviews"] = 0
-
-    # review_index stays None if no reviews — that's meaningful data
 
     # ── Booleans ──
     cleaned["is_superhost"]       = bool(cleaned.get("is_superhost", False))
@@ -84,10 +92,6 @@ def clean_listing(listing: dict, region_avg_price: float, overall_avg_price: flo
         cleaned.get("characteristics") or []
     )
 
-    # ── Host name fallback ──
-    if not cleaned.get("host_name"):
-        cleaned["host_name"] = "Unknown"
-
     return cleaned
 
 
@@ -95,61 +99,43 @@ def clean_listing(listing: dict, region_avg_price: float, overall_avg_price: flo
 def preprocess(raw_data: dict) -> list:
     """
     Takes the raw dict {region: [listings]},
-    flattens it to a single list,
-    computes averages for imputation,
-    and cleans every listing.
+    flattens to a single list,
+    drops incomplete listings,
+    and cleans the remaining ones.
     """
-    # ── Flatten all listings into one list ──
+    # ── Flatten ──
     all_listings = []
     for region, listings in raw_data.items():
         for listing in listings:
-            listing["region"] = region  # ensure region is set
+            listing["region"] = region
             all_listings.append(listing)
 
-    print(f"Total raw listings     : {len(all_listings)}")
+    print(f"Total raw listings: {len(all_listings)}")
 
-    # ── Compute region average prices (excluding nulls) ──
-    region_prices = {}
+    # ── Filter incomplete listings ──
+    complete   = []
+    dropped    = []
+    drop_reasons = {}
+
     for listing in all_listings:
-        region = listing["region"]
-        price  = listing.get("price_per_night")
-        if price is not None:
-            region_prices.setdefault(region, []).append(float(price))
+        ok, reason = is_complete(listing)
+        if ok:
+            complete.append(listing)
+        else:
+            dropped.append(listing)
+            drop_reasons[reason] = drop_reasons.get(reason, 0) + 1
 
-    region_avg = {
-        region: sum(prices) / len(prices)
-        for region, prices in region_prices.items()
-    }
+    print(f"\n── Dropped {len(dropped)} incomplete listings ──")
+    for reason, count in sorted(drop_reasons.items(), key=lambda x: -x[1]):
+        print(f"  {reason}: {count}")
 
-    # ── Overall average price as fallback ──
-    all_prices   = [p for prices in region_prices.values() for p in prices]
-    overall_avg  = sum(all_prices) / len(all_prices) if all_prices else 0.0
+    print(f"\n── Kept {len(complete)} complete listings ──")
 
-    print(f"\n── Region average prices ──")
-    for region, avg in region_avg.items():
-        print(f"  {region}: €{avg:.2f}/night")
-    print(f"  Overall : €{overall_avg:.2f}/night")
+    # ── Clean the complete listings ──
+    cleaned_listings = [clean_listing(l) for l in complete]
 
-    # ── Clean every listing ──
-    cleaned_listings = []
-    for listing in all_listings:
-        region      = listing["region"]
-        r_avg_price = region_avg.get(region, overall_avg)
-        cleaned     = clean_listing(listing, r_avg_price, overall_avg)
-        cleaned_listings.append(cleaned)
-
-    # ── Report ──
-    null_prices  = sum(1 for l in all_listings if l.get("price_per_night") is None)
-    null_reviews = sum(1 for l in all_listings if l.get("review_index") is None)
-    null_beds    = sum(1 for l in all_listings if l.get("bedrooms") is None)
-
-    print(f"\n── Null value summary (before cleaning) ──")
-    print(f"  Null prices   : {null_prices}")
-    print(f"  Null reviews  : {null_reviews}")
-    print(f"  Null bedrooms : {null_beds}")
-
-    print(f"\n── Final dataset ──")
-    print(f"  Total listings : {len(cleaned_listings)}")
+    # ── Per region summary ──
+    print(f"\n── Final dataset per region ──")
     for region in raw_data:
         count = sum(1 for l in cleaned_listings if l["region"] == region)
         print(f"  {region}: {count} listings")
