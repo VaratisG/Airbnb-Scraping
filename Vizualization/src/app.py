@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import json
+import os
+import pickle
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
@@ -450,80 +452,92 @@ elif page == "🗺️ Map":
 # ═══════════════════════════════════════════════════════════════════════════════
 elif page == "🤖 ML Price Predictor":
     st.markdown("# 🤖 ML Price Predictor")
-    st.markdown("Train a model on your dataset, then predict the nightly price for any listing.")
 
-    # ── Feature engineering ───────────────────────────────────────────────────
-    @st.cache_data
-    def prepare_features(data):
-        d = data.copy()
-        # Encode boolean flags
-        d["is_superhost"] = d["is_superhost"].astype(int)
-        d["is_guest_favourite"] = d["is_guest_favourite"].astype(int)
-        # Encode region
-        if "region" in d.columns:
-            le = LabelEncoder()
-            d["region_enc"] = le.fit_transform(d["region"].fillna("unknown"))
-            region_classes = list(le.classes_)
-        else:
-            d["region_enc"] = 0
-            region_classes = ["unknown"]
-        # Top characteristics as binary features
-        all_c = [c for lst in d["characteristics"] for c in lst]
-        top_c = [c for c, _ in Counter(all_c).most_common(10)]
-        for c in top_c:
-            d[f"char_{c}"] = d["characteristics"].apply(lambda x: 1 if c in x else 0)
-        feature_cols = (
-            ["guests", "beds", "bedrooms", "baths",
-             "is_superhost", "is_guest_favourite",
-             "review_index", "num_reviews", "region_enc"]
-            + [f"char_{c}" for c in top_c]
-        )
-        feature_cols = [c for c in feature_cols if c in d.columns]
-        d_clean = d[feature_cols + ["price_per_night"]].dropna()
-        return d_clean, feature_cols, region_classes, top_c
+    # ── Load model.pkl ────────────────────────────────────────────────────────
+    MODEL_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "model.pkl")
 
-    df_ml, feat_cols, region_classes, top_chars = prepare_features(df)
-
-    if len(df_ml) < 20:
-        st.warning("Not enough data for ML training (need ≥ 20 clean rows).")
+    if not os.path.exists(MODEL_PATH):
+        st.error("⚠️ No trained model found. Run `train_model.py` first:")
+        st.code("cd Vizualization/src\npython train_model.py", language="bash")
         st.stop()
 
-    X = df_ml[feat_cols]
-    y = df_ml["price_per_night"]
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-    # ── Model selection & training ─────────────────────────────────────────────
-    st.markdown('<div class="section-header">Model Training</div>', unsafe_allow_html=True)
-    model_choice = st.selectbox("Choose model", ["Random Forest", "Gradient Boosting", "Linear Regression"])
-
     @st.cache_resource
-    def train_model(choice, _X_train, _y_train):
-        if choice == "Random Forest":
-            m = RandomForestRegressor(n_estimators=200, random_state=42, n_jobs=-1)
-        elif choice == "Gradient Boosting":
-            m = GradientBoostingRegressor(n_estimators=200, learning_rate=0.05, random_state=42)
-        else:
-            m = LinearRegression()
-        m.fit(_X_train, _y_train)
-        return m
+    def load_model(path):
+        with open(path, "rb") as f:
+            return pickle.load(f)
 
-    model = train_model(model_choice, X_train, y_train)
-    preds = model.predict(X_test)
-    mae = mean_absolute_error(y_test, preds)
-    r2 = r2_score(y_test, preds)
+    payload     = load_model(MODEL_PATH)
+    model       = payload["model"]
+    model_name  = payload["model_name"]
+    feat_cols   = payload["feature_cols"]
+    region_classes = payload["region_classes"]
+    top_chars   = payload["top_chars"]
+    mae         = payload["test_mae"]
+    r2          = payload["test_r2"]
+    cv_mae      = payload["cv_mae"]
+    cv_std      = payload["cv_std"]
+    all_results = payload["all_results"]
 
-    c1, c2, c3 = st.columns(3)
-    c1.metric("MAE (€)", f"{mae:.2f}")
-    c2.metric("R² Score", f"{r2:.3f}")
-    c3.metric("Training samples", len(X_train))
+    # ── Model comparison table ────────────────────────────────────────────────
+    st.markdown('<div class="section-header">Model Comparison (all 3 trained)</div>', unsafe_allow_html=True)
+
+    res_df = pd.DataFrame(all_results)[["name", "cv_mae", "cv_std", "test_mae", "test_r2"]]
+    res_df.columns = ["Model", "CV MAE (€)", "CV Std (€)", "Test MAE (€)", "R²"]
+    res_df = res_df.round(3)
+
+    # Highlight best row
+    def highlight_best(row):
+        style = [""] * len(row)
+        if row["Model"] == model_name:
+            style = ["background-color: #ff385c22; color: #ff385c; font-weight: bold"] * len(row)
+        return style
+
+    st.dataframe(res_df.style.apply(highlight_best, axis=1), use_container_width=True, hide_index=True)
+
+    st.markdown(f"""
+    <div class="metric-card" style="margin-bottom:16px;">
+        <div class="metric-label">🏆 Best Model Selected</div>
+        <div class="metric-value" style="font-size:1.6rem;">{model_name}</div>
+        <div class="metric-label">Test MAE €{mae:.2f} · R² {r2:.3f} · CV MAE €{cv_mae:.2f} ± €{cv_std:.2f}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # ── Model metrics & charts ────────────────────────────────────────────────
+    st.markdown('<div class="section-header">Model Performance</div>', unsafe_allow_html=True)
+
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Best Model", model_name)
+    c2.metric("Test MAE", f"€{mae:.2f}")
+    c3.metric("R² Score", f"{r2:.3f}")
+    c4.metric("CV MAE", f"€{cv_mae:.2f} ± {cv_std:.2f}")
 
     col_a, col_b = st.columns(2)
+
+    # Actual vs Predicted on the full dataset
     with col_a:
-        fig = px.scatter(x=y_test, y=preds, opacity=0.6,
+        # Re-build features from loaded df to get predictions
+        d = df.copy()
+        d["is_superhost"] = d["is_superhost"].astype(int)
+        d["is_guest_favourite"] = d["is_guest_favourite"].astype(int)
+        if "region" in d.columns:
+            from sklearn.preprocessing import LabelEncoder as LE
+            le2 = LE()
+            le2.classes_ = np.array(region_classes)
+            d["region_enc"] = d["region"].fillna("unknown").apply(
+                lambda x: list(region_classes).index(x) if x in region_classes else 0
+            )
+        for c in top_chars:
+            d[f"char_{c}"] = d["characteristics"].apply(lambda x: 1 if c in x else 0)
+        d_pred = d[feat_cols + ["price_per_night"]].dropna()
+        X_all = d_pred[feat_cols]
+        y_all = d_pred["price_per_night"]
+        preds_all = model.predict(X_all)
+
+        fig = px.scatter(x=y_all, y=preds_all, opacity=0.6,
                          labels={"x": "Actual Price (€)", "y": "Predicted Price (€)"},
                          color_discrete_sequence=[ACCENT],
-                         template=PLOTLY_TEMPLATE, title="Actual vs Predicted")
-        mn, mx = min(y_test.min(), preds.min()), max(y_test.max(), preds.max())
+                         template=PLOTLY_TEMPLATE, title="Actual vs Predicted (full dataset)")
+        mn, mx = min(y_all.min(), preds_all.min()), max(y_all.max(), preds_all.max())
         fig.add_shape(type="line", x0=mn, y0=mn, x1=mx, y1=mx,
                       line=dict(color="white", dash="dash", width=1))
         st.plotly_chart(fig, use_container_width=True)
@@ -538,29 +552,29 @@ elif page == "🤖 ML Price Predictor":
             fig.update_layout(yaxis=dict(autorange="reversed"), coloraxis_showscale=False)
             st.plotly_chart(fig, use_container_width=True)
         else:
-            residuals = y_test - preds
+            residuals = y_all - preds_all
             fig = px.histogram(residuals, nbins=30, color_discrete_sequence=[ACCENT],
                                 template=PLOTLY_TEMPLATE, title="Residuals Distribution")
             st.plotly_chart(fig, use_container_width=True)
 
     # ── Prediction form ───────────────────────────────────────────────────────
     st.markdown('<div class="section-header">🔮 Predict a Listing\'s Price</div>', unsafe_allow_html=True)
-    st.markdown("Fill in the listing details below:")
+    st.markdown("Fill in the listing details and get an estimated nightly price:")
 
     with st.form("predict_form"):
         col1, col2, col3 = st.columns(3)
         with col1:
-            p_guests = st.number_input("Guests", 1, 20, 2)
-            p_beds = st.number_input("Beds", 1, 20, 1)
+            p_guests  = st.number_input("Guests", 1, 20, 2)
+            p_beds    = st.number_input("Beds", 1, 20, 1)
             p_bedrooms = st.number_input("Bedrooms", 0, 10, 1)
         with col2:
-            p_baths = st.number_input("Baths", 1, 10, 1)
+            p_baths    = st.number_input("Baths", 1, 10, 1)
             p_superhost = st.selectbox("Superhost?", [False, True])
-            p_guestfav = st.selectbox("Guest Favourite?", [False, True])
+            p_guestfav  = st.selectbox("Guest Favourite?", [False, True])
         with col3:
-            p_rating = st.slider("Review Index", 1.0, 5.0, 4.5, 0.01)
+            p_rating  = st.slider("Review Index", 1.0, 5.0, 4.5, 0.01)
             p_reviews = st.number_input("Num Reviews", 0, 2000, 20)
-            p_region = st.selectbox("Region", region_classes)
+            p_region  = st.selectbox("Region", region_classes)
 
         p_chars = st.multiselect("Characteristics (select all that apply)", top_chars)
         submitted = st.form_submit_button("💡 Predict Price", use_container_width=True)
@@ -578,10 +592,24 @@ elif page == "🤖 ML Price Predictor":
         input_df = pd.DataFrame([row])[feat_cols]
         pred_price = model.predict(input_df)[0]
 
+        # Price bucket
+        q33 = df["price_per_night"].quantile(0.33)
+        q66 = df["price_per_night"].quantile(0.66)
+        if pred_price <= q33:
+            bucket, bucket_color = "💚 Budget", "#00c851"
+        elif pred_price <= q66:
+            bucket, bucket_color = "🟡 Mid-range", "#f5a623"
+        else:
+            bucket, bucket_color = "🔴 Luxury", "#ff385c"
+
         st.markdown(f"""
         <div class="metric-card" style="margin-top:16px;">
             <div class="metric-label">Estimated Price per Night</div>
             <div class="metric-value" style="font-size:3rem;">€{pred_price:.2f}</div>
-            <div class="metric-label">Model: {model_choice} · MAE ±€{mae:.2f}</div>
+            <div style="font-size:1.2rem; margin-top:8px; color:{bucket_color}; font-weight:700;">{bucket}</div>
+            <div class="metric-label" style="margin-top:6px;">
+                Model: {model_name} · MAE ±€{mae:.2f}<br>
+                Budget ≤ €{q33:.0f} · Mid ≤ €{q66:.0f} · Luxury > €{q66:.0f}
+            </div>
         </div>
         """, unsafe_allow_html=True)
