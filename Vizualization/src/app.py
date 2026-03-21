@@ -27,12 +27,19 @@ st.set_page_config(
 # ── Custom CSS ────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 html, body, [class*="css"] {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    line-height: 1.6;
 }
-h1, h2, h3 { font-family: 'Syne', sans-serif; }
+h1, h2, h3 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
 
 .main { background: #0f0f13; }
 [data-testid="stAppViewContainer"] { background: #0f0f13; }
@@ -41,42 +48,49 @@ h1, h2, h3 { font-family: 'Syne', sans-serif; }
 .metric-card {
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
     border: 1px solid #2a2a4a;
-    border-radius: 16px;
+    border-radius: 14px;
     padding: 20px;
     text-align: center;
     transition: transform 0.2s;
 }
 .metric-card:hover { transform: translateY(-3px); }
 .metric-value {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Outfit', sans-serif;
     font-size: 2rem;
-    font-weight: 800;
+    font-weight: 700;
     background: linear-gradient(135deg, #ff385c, #ff6b8a);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    letter-spacing: -0.02em;
 }
 .metric-label {
     color: #888;
-    font-size: 0.8rem;
+    font-size: 0.72rem;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-top: 4px;
+    letter-spacing: 0.12em;
+    margin-top: 6px;
+    font-weight: 500;
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 .section-header {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.5rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.4rem;
     font-weight: 700;
-    color: #fff;
-    border-left: 4px solid #ff385c;
-    padding-left: 12px;
-    margin: 24px 0 16px 0;
+    color: #f0eee8;
+    border-left: 3px solid #ff385c;
+    padding-left: 14px;
+    margin: 28px 0 14px 0;
+    letter-spacing: -0.02em;
 }
 .badge {
     display: inline-block;
     padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 0.75rem;
+    border-radius: 6px;
+    font-size: 0.7rem;
     font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 .badge-red { background: #ff385c22; color: #ff385c; border: 1px solid #ff385c44; }
 .badge-gold { background: #f5a62322; color: #f5a623; border: 1px solid #f5a62344; }
@@ -454,8 +468,8 @@ elif page == "🤖 ML Price Predictor":
     st.markdown("# 🤖 ML Price Predictor")
 
     # ── Load model.pkl ────────────────────────────────────────────────────────
-    MODEL_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "model.pkl")
-
+    MODEL_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../PricePredictor/model/model.pkl")
+    
     if not os.path.exists(MODEL_PATH):
         st.error("⚠️ No trained model found. Run `train_model.py` first:")
         st.code("cd Vizualization/src\npython train_model.py", language="bash")

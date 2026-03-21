@@ -22,9 +22,8 @@ from sklearn.model_selection import KFold, cross_val_score, train_test_split
 from sklearn.preprocessing import LabelEncoder
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-JSON_PATH = os.path.join(BASE_DIR, "..", "..", "DataProcessing", "data", "listings_cleaned.json")
-MODEL_OUT = os.path.join(BASE_DIR, "model.pkl")
+JSON_PATH = "../../DataProcessing/data/listings_cleaned.json"
+MODEL_OUT = "../model/model.pkl"
 
 # ── Load data ─────────────────────────────────────────────────────────────────
 print("📂 Loading data...")
