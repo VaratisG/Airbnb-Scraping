@@ -156,15 +156,27 @@ with st.sidebar:
     if data_source == "JSON file":
         json_path = st.text_input("JSON path", value="../../DataProcessing/data/listings_cleaned.json")
         df = load_data(source="json", path=json_path)
+        st.session_state["df"] = df 
     else:
         uri = st.text_input("MongoDB URI",
             value="mongodb://eu:Gm8WQhwE@db.csd.auth.gr:27117/?authSource=admin")
-        db_name = st.text_input("Database", value="airbnb_db")
-        col_name = st.text_input("Collection", value="listings")
+        db_name = st.text_input("Database", value="eu")
+        col_name = st.text_input("Collection", value="219_229_220_collection")
         if st.button("Connect"):
-            df = load_data(source="mongodb", mongo_uri=uri, db=db_name, col=col_name)
-        else:
-            df = pd.DataFrame()
+            with st.spinner("Connecting..."):
+                loaded = load_data(source="mongodb", mongo_uri=uri, db=db_name, col=col_name)
+            if not loaded.empty:
+                st.session_state["df"] = loaded
+                st.success(f"✅ Connected — {len(loaded)} listings loaded")
+            else:
+                st.error("Connection failed or empty collection.")
+
+        if "df" in st.session_state:
+            if st.button("🔌 Disconnect"):
+                del st.session_state["df"]
+                st.rerun()
+
+        df = st.session_state.get("df", pd.DataFrame())
 
     st.divider()
     if not df.empty and "region" in df.columns:
@@ -492,84 +504,6 @@ elif page == "🤖 ML Price Predictor":
     cv_std      = payload["cv_std"]
     all_results = payload["all_results"]
 
-    # ── Model comparison table ────────────────────────────────────────────────
-    st.markdown('<div class="section-header">Model Comparison (all 3 trained)</div>', unsafe_allow_html=True)
-
-    res_df = pd.DataFrame(all_results)[["name", "cv_mae", "cv_std", "test_mae", "test_r2"]]
-    res_df.columns = ["Model", "CV MAE (€)", "CV Std (€)", "Test MAE (€)", "R²"]
-    res_df = res_df.round(3)
-
-    # Highlight best row
-    def highlight_best(row):
-        style = [""] * len(row)
-        if row["Model"] == model_name:
-            style = ["background-color: #ff385c22; color: #ff385c; font-weight: bold"] * len(row)
-        return style
-
-    st.dataframe(res_df.style.apply(highlight_best, axis=1), use_container_width=True, hide_index=True)
-
-    st.markdown(f"""
-    <div class="metric-card" style="margin-bottom:16px;">
-        <div class="metric-label">🏆 Best Model Selected</div>
-        <div class="metric-value" style="font-size:1.6rem;">{model_name}</div>
-        <div class="metric-label">Test MAE €{mae:.2f} · R² {r2:.3f} · CV MAE €{cv_mae:.2f} ± €{cv_std:.2f}</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # ── Model metrics & charts ────────────────────────────────────────────────
-    st.markdown('<div class="section-header">Model Performance</div>', unsafe_allow_html=True)
-
-    c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Best Model", model_name)
-    c2.metric("Test MAE", f"€{mae:.2f}")
-    c3.metric("R² Score", f"{r2:.3f}")
-    c4.metric("CV MAE", f"€{cv_mae:.2f} ± {cv_std:.2f}")
-
-    col_a, col_b = st.columns(2)
-
-    # Actual vs Predicted on the full dataset
-    with col_a:
-        # Re-build features from loaded df to get predictions
-        d = df.copy()
-        d["is_superhost"] = d["is_superhost"].astype(int)
-        d["is_guest_favourite"] = d["is_guest_favourite"].astype(int)
-        if "region" in d.columns:
-            from sklearn.preprocessing import LabelEncoder as LE
-            le2 = LE()
-            le2.classes_ = np.array(region_classes)
-            d["region_enc"] = d["region"].fillna("unknown").apply(
-                lambda x: list(region_classes).index(x) if x in region_classes else 0
-            )
-        for c in top_chars:
-            d[f"char_{c}"] = d["characteristics"].apply(lambda x: 1 if c in x else 0)
-        d_pred = d[feat_cols + ["price_per_night"]].dropna()
-        X_all = d_pred[feat_cols]
-        y_all = d_pred["price_per_night"]
-        preds_all = model.predict(X_all)
-
-        fig = px.scatter(x=y_all, y=preds_all, opacity=0.6,
-                         labels={"x": "Actual Price (€)", "y": "Predicted Price (€)"},
-                         color_discrete_sequence=[ACCENT],
-                         template=PLOTLY_TEMPLATE, title="Actual vs Predicted (full dataset)")
-        mn, mx = min(y_all.min(), preds_all.min()), max(y_all.max(), preds_all.max())
-        fig.add_shape(type="line", x0=mn, y0=mn, x1=mx, y1=mx,
-                      line=dict(color="white", dash="dash", width=1))
-        st.plotly_chart(fig, use_container_width=True)
-
-    with col_b:
-        if hasattr(model, "feature_importances_"):
-            fi = pd.DataFrame({"Feature": feat_cols, "Importance": model.feature_importances_})
-            fi = fi.sort_values("Importance", ascending=False).head(12)
-            fig = px.bar(fi, x="Importance", y="Feature", orientation="h",
-                         color="Importance", color_continuous_scale=["#1b3a5c", ACCENT],
-                         template=PLOTLY_TEMPLATE, title="Feature Importances")
-            fig.update_layout(yaxis=dict(autorange="reversed"), coloraxis_showscale=False)
-            st.plotly_chart(fig, use_container_width=True)
-        else:
-            residuals = y_all - preds_all
-            fig = px.histogram(residuals, nbins=30, color_discrete_sequence=[ACCENT],
-                                template=PLOTLY_TEMPLATE, title="Residuals Distribution")
-            st.plotly_chart(fig, use_container_width=True)
 
     # ── Prediction form ───────────────────────────────────────────────────────
     st.markdown('<div class="section-header">🔮 Predict a Listing\'s Price</div>', unsafe_allow_html=True)
