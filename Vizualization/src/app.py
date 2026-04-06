@@ -512,11 +512,11 @@ elif page == "🤖 ML Price Predictor":
     with st.form("predict_form"):
         col1, col2, col3 = st.columns(3)
         with col1:
-            p_guests  = st.number_input("Guests", 1, 20, 2)
-            p_beds    = st.number_input("Beds", 1, 20, 1)
+            p_guests  = st.number_input("Guests", 1, 10, 2)
+            p_beds    = st.number_input("Beds", 1, 10, 1)
             p_bedrooms = st.number_input("Bedrooms", 0, 10, 1)
         with col2:
-            p_baths    = st.number_input("Baths", 1, 10, 1)
+            p_baths    = st.number_input("Baths", 1, 7, 1)
             p_superhost = st.selectbox("Superhost?", [False, True])
             p_guestfav  = st.selectbox("Guest Favourite?", [False, True])
         with col3:
@@ -555,9 +555,5 @@ elif page == "🤖 ML Price Predictor":
             <div class="metric-label">Estimated Price per Night</div>
             <div class="metric-value" style="font-size:3rem;">€{pred_price:.2f}</div>
             <div style="font-size:1.2rem; margin-top:8px; color:{bucket_color}; font-weight:700;">{bucket}</div>
-            <div class="metric-label" style="margin-top:6px;">
-                Model: {model_name} · MAE ±€{mae:.2f}<br>
-                Budget ≤ €{q33:.0f} · Mid ≤ €{q66:.0f} · Luxury > €{q66:.0f}
-            </div>
         </div>
         """, unsafe_allow_html=True)
